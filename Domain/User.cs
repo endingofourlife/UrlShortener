@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    internal class User
+    public class User
     {
+        public bool IsAdmin { get; set; }
+        public ICollection<Url> Urls { get; set; }
     }
 }
