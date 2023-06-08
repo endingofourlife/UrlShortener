@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -36,7 +37,11 @@ namespace API.Controllers
 
             return Unauthorized();
         }
-
+        [HttpGet]
+        public async Task<ActionResult<List<UserDto>>> GetUsers()
+        {
+            return Ok(await _userManager.Users.ToListAsync());
+        }
 
         /// <summary>
         /// Creates a UserDto object based on the provided User entity.
