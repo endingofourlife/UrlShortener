@@ -8,6 +8,7 @@ namespace Application.Urls
 {
     public class UrlDto
     {
+        public Guid Id { get; set; }
         public string OriginalUrl { get; set; }
         public string ShortUrl { get; set; }
         public DateTime CreatedDate { get; set; }
