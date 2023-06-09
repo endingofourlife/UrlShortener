@@ -10,6 +10,6 @@ namespace Domain
     public class User : IdentityUser
     {
         public bool IsAdmin { get; set; }
-        public ICollection<Url> Urls { get; set; } = new List<Url>();
+        public ICollection<Url> Urls { get; set; }
     }
 }
