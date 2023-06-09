@@ -1,4 +1,5 @@
-﻿using Application.Urls;
+﻿using Application.Core;
+using Application.Urls;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -28,7 +29,11 @@ namespace API.Extensions
                 });
             });
 
+            //Mediator pattern
             services.AddMediatR(typeof(List.Handler));
+
+            //AutoMapper
+            services.AddAutoMapper(typeof(MappingProfilies).Assembly);
             return services;
         }
     }

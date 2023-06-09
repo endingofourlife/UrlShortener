@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Urls;
+using AutoMapper;
 using Domain;
 
 namespace Application.Core
@@ -7,7 +8,7 @@ namespace Application.Core
     {
         public MappingProfilies()
         {
-            // TODO 
+            CreateMap<Url, UrlDto>();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<List<Url>>> GetUrls()
+        public async Task<ActionResult<List<UrlDto>>> GetUrls()
         {
             var query = new List.Query();
             var urls = await Mediator.Send(query);
