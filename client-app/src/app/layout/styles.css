@@ -1,13 +1,75 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: whitesmoke;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/*NavBar design*/
+.ui.secondary.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  background: linear-gradient(to right, cornflowerblue, darkblue);
+}
+
+.ui.secondary.menu .item {
+  position: relative;
+  padding: 0.5em 1em;
+  font-size: 1.5em;
+}
+
+.ui.secondary.menu .item:first-child {
+  margin-left: 5%;
+}
+
+.ui.secondary.menu .item:last-child {
+  margin-right: 10%;
+  box-shadow: none;
+}
+
+.ui.secondary.menu .item:hover {
+  /*background-color: lightcyan;*/
+  color: blue;
+}
+.ui.secondary.menu .item:last-child .button{
+  color: midnightblue;
+  background-color: deepskyblue;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+/* Dashboard design */
+.table-container {
+  background-color: #fff;
+  padding: 7px;
+  border-radius: 10px;
+}
+
+.url-details {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2%;
+}
+
+.url-date {
+  margin-right: 5%;
+}
+
+.url-arrow {
+  margin: 0 5%;
+}
+
+.url-short {
+  margin-left: 10px;
 }
