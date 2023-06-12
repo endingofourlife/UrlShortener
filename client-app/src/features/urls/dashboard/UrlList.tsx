@@ -8,9 +8,16 @@ interface Props{
     urls: UsersUrl[];
     openUrlDetails: (url: UsersUrl) => void;
     deleteUrl: (id: string) => void;
+    submitting: boolean;
 }
 
-export default function UrlList({urls, openUrlDetails, deleteUrl }: Props) {
+export default function UrlList({urls, openUrlDetails, deleteUrl, submitting }: Props) {
+    const [target, setTarget] = useState("");
+
+    function handleUrlDelete(e: SyntheticEvent<HTMLButtonElement>, id: string){
+        setTarget(e.currentTarget.name);
+        deleteUrl(id);
+    }
 
     return (
         <>
@@ -28,7 +35,7 @@ export default function UrlList({urls, openUrlDetails, deleteUrl }: Props) {
                             </Item.Description>
                             <Item.Extra>
                                 <Button floated='right' content='View' color='blue' onClick={()=>openUrlDetails(url)} />
-                                <Button floated='right' content='Delete' color='red' onClick={()=>deleteUrl(url.id)} />
+                                <Button name={url.id} loading={submitting && target===url.id} floated='right' content='Delete' color='red' onClick={(e)=>handleUrlDelete(e, url.id)} />
                             </Item.Extra>
                         </Item.Content>
                     </Item>

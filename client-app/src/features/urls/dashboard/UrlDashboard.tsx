@@ -12,10 +12,11 @@ interface Props{
     createUrl: (url: CreateUrlDto) => void;
     deleteUrl: (id: string) => void;
     deleteAllUrls: () => void;
+    submitting: boolean;
 }
 
 
-export default function UrlDashboard({urls, createUrl, deleteUrl, deleteAllUrls}: Props) {
+export default function UrlDashboard({urls, createUrl, deleteUrl, deleteAllUrls, submitting}: Props) {
     const [selectedUrl, setSelectedUrl] = useState<UsersUrl | null>(null);
 
     const openUrlDetails = (url: UsersUrl) => {
@@ -30,11 +31,11 @@ export default function UrlDashboard({urls, createUrl, deleteUrl, deleteAllUrls}
         <Grid centered>
             <Grid.Column width={10}>
                 <div className="table-container">
-                    <UrlList urls={urls} openUrlDetails={openUrlDetails} deleteUrl={deleteUrl}/>
+                    <UrlList urls={urls} openUrlDetails={openUrlDetails} deleteUrl={deleteUrl} submitting={submitting}/>
                 </div>
             </Grid.Column>
             <div className="form-container" style={{paddingTop: '13px'}}>
-                <UrlForm createUrl={createUrl} />
+                <UrlForm createUrl={createUrl} submitting={submitting}/>
             </div>
             <div className='delete-container' style={{paddingTop: '11.5rem'}} onClick={deleteAllUrls}>
                 <Button content='Delete All' color='red' onClick={deleteAllUrls} />
@@ -45,30 +46,4 @@ export default function UrlDashboard({urls, createUrl, deleteUrl, deleteAllUrls}
         </Grid>
     )
 }
-
-
-/*
-*     // const [selectedUrl, setSelectedUrl] = useState<UsersUrl | null>(null);
-    // const { urlStore } = useStore();
-    //
-
-    //
-    // useEffect(() => {
-    //     urlStore.loadUrls(); // Загрузка URL'ов при инициализации компонента
-    // }, [urlStore]);
-
-*
-*
-*
-            <Grid centered>
-                <Grid.Column width={10}>
-                    <div className="table-container">
-
-                        <UrlList urls={urls} openUrlDetails={openUrlDetails}  />
-                    </div>
-                </Grid.Column>
-                {selectedUrl && (
-                    <UrlDetails url={selectedUrl} onClose={closeUrlDetails} />
-                )}
-            </Grid>
-* */
+  

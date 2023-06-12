@@ -14,6 +14,7 @@ import LoadingComponent from "./LoadingComponent";
 function App() {
   const [urls, setUrls] = useState<UsersUrl[]>([]);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(()=>{
     agent.Urls.list().then(response => {
@@ -28,20 +29,33 @@ function App() {
   }, []);
 
   function handleCreateUrl(url: CreateUrlDto){
-      const trueUrl:UsersUrl = {
-          id: uuid(),
-          originalUrl: url.originalUrl,
-          shortUrl: url.shortUrl,
-          createdDate: new Date().toISOString().split('T')[0],
-          userId: url.userId
-      }
-      setUrls([...urls, trueUrl]);
+      setSubmitting(true);
+
+      agent.Urls.create(url).then(() => {
+          const correctUrl:UsersUrl = {
+              id: uuid(),
+              originalUrl: url.originalUrl,
+              shortUrl: url.shortUrl,
+              createdDate: new Date().toISOString().split('T')[0],
+              userId: url.userId
+          }
+          setUrls([...urls, correctUrl]);
+          setSubmitting(false);
+      })
   }
   function handleDeleteUrl(id: string){
-      setUrls([...urls.filter(x=>x.id !== id)])
+      setSubmitting(true);
+      agent.Urls.delete(id).then(() => {
+          setUrls([...urls.filter(x=>x.id !== id)]);
+          setSubmitting(false);
+      });
   }
   function handleDeleteAllUrls(){
-      setUrls([])
+      setSubmitting(true);
+      agent.Urls.deleteAll().then(() => {
+          setUrls([]);
+          setSubmitting(false);
+      });
   }
 
   if (loading) return <LoadingComponent/>
@@ -49,7 +63,13 @@ function App() {
     <div className="App">
         <NavBar />
          <Container style={{marginTop: '7em'}}>
-             <UrlDashboard urls={urls} createUrl={handleCreateUrl} deleteUrl={handleDeleteUrl} deleteAllUrls={handleDeleteAllUrls}/>
+             <UrlDashboard
+                 urls={urls}
+                 createUrl={handleCreateUrl}
+                 deleteUrl={handleDeleteUrl}
+                 deleteAllUrls={handleDeleteAllUrls}
+                 submitting={submitting}
+             />
          </Container>
     </div>
   );

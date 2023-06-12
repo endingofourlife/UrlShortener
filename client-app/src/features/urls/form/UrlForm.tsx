@@ -5,9 +5,10 @@ import {CreateUrlDto} from "../../../app/models/Dto/CreateUrlDto";
 
 interface Props {
     createUrl: (url: CreateUrlDto) => void;
+    submitting: boolean;
 }
 
-export function UrlForm({createUrl}: Props) {
+export function UrlForm({createUrl, submitting}: Props) {
     const initialState: CreateUrlDto = {
         originalUrl: '',
         shortUrl: '',
@@ -29,7 +30,7 @@ export function UrlForm({createUrl}: Props) {
                 <Form.Input placeholder='Original Url' name='originalUrl' onChange={handleInputChange}/>
                 <Form.Input placeholder='Short Url' name='shortUrl' onChange={handleInputChange}/>
                 <Form.Input placeholder='User id' name='userId' onChange={handleInputChange}/>
-                <Button positive type='submit' content='Submit' onClick={handleSubmit}/>
+                <Button  positive type='submit' content='Submit' onClick={handleSubmit} loading={submitting}/>
             </Form>
         </Segment>
     )

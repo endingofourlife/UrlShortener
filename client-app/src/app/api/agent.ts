@@ -1,5 +1,6 @@
 import axios, {Axios, AxiosResponse} from "axios";
 import {UsersUrl} from "../models/UsersUrl";
+import {CreateUrlDto} from "../models/Dto/CreateUrlDto";
 
 
 const sleep = (delay: number) => {
@@ -32,7 +33,7 @@ const requests = {
 const Urls = {
     list: () => requests.get<UsersUrl[]>('/Url'),
     details: (id: string) => requests.get<UsersUrl>(`/Url/${id}`),
-    create: (url: UsersUrl) => axios.post<void>('/Url/', url),
+    create: (url: CreateUrlDto) => axios.post<void>('/Url/', url),
     delete: (id: string) => axios.delete<void>(`/Url/${id}`),
     deleteAll: () => axios.delete<void>('/Url')
 };
