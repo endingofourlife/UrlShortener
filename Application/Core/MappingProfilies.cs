@@ -1,4 +1,4 @@
-﻿using Application.Urls;
+﻿using Application.Urls.Models;
 using AutoMapper;
 using Domain;
 
