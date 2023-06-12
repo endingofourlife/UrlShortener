@@ -15,7 +15,7 @@ namespace Application.Urls.Validators
         {
             RuleFor(x => x.UserId).NotEmpty();
             RuleFor(x=>x.OriginalUrl).NotEmpty();
-            RuleFor(x=>x.ShortUrl).NotEmpty().MinimumLength(4).MaximumLength(7);
+            RuleFor(x=>x.ShortUrl).NotEmpty().MinimumLength(4);
         }
     }
 }
