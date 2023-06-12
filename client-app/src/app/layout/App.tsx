@@ -8,10 +8,12 @@ import UrlDashboard from "../../features/urls/dashboard/UrlDashboard";
 import agent from "../api/agent";
 import {CreateUrlDto} from "../models/Dto/CreateUrlDto";
 import {v4 as uuid} from 'uuid';
+import LoadingComponent from "./LoadingComponent";
 
 
 function App() {
   const [urls, setUrls] = useState<UsersUrl[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
     agent.Urls.list().then(response => {
@@ -21,6 +23,7 @@ function App() {
         urls.push(url);
       })
         setUrls(urls);
+        setLoading(false);
     })
   }, []);
 
@@ -40,6 +43,8 @@ function App() {
   function handleDeleteAllUrls(){
       setUrls([])
   }
+
+  if (loading) return <LoadingComponent/>
   return (
     <div className="App">
         <NavBar />
