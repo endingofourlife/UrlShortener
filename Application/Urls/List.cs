@@ -16,14 +16,14 @@ namespace Application.Urls
         /// <summary>
         /// Represents a query request to view all URLs.
         /// </summary>
-        public class Query : IRequest<List<UrlDto>>
+        public class Query : IRequest<List<UrlViewDto>>
         {
 
         }
         /// <summary>
         /// Represents a query handler to handle the request for viewing of URLs.
         /// </summary>
-        public class Handler : IRequestHandler<Query, List<UrlDto>>
+        public class Handler : IRequestHandler<Query, List<UrlViewDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -38,11 +38,11 @@ namespace Application.Urls
             /// </summary>
             /// <param name="request">The query request.</param>
             /// <returns>A task representing the asynchronous operation that returns the URL.</returns>
-            public async Task<List<UrlDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<UrlViewDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var urls = await _context.Urls.ToListAsync();
                 
-                var urlsToReturn = _mapper.Map<List<UrlDto>>(urls);
+                var urlsToReturn = _mapper.Map<List<UrlViewDto>>(urls);
 
                 return urlsToReturn;
             }
