@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Application.Core;
+using Application.Urls.Models;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +18,14 @@ namespace Application.Urls
         /// <summary>
         /// Represents a query request to view all URLs.
         /// </summary>
-        public class Query : IRequest<List<UrlViewDto>>
+        public class Query : IRequest<Result<List<UrlViewDto>>>
         {
 
         }
         /// <summary>
         /// Represents a query handler to handle the request for viewing of URLs.
         /// </summary>
-        public class Handler : IRequestHandler<Query, List<UrlViewDto>>
+        public class Handler : IRequestHandler<Query, Result<List<UrlViewDto>>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -38,13 +40,13 @@ namespace Application.Urls
             /// </summary>
             /// <param name="request">The query request.</param>
             /// <returns>A task representing the asynchronous operation that returns the URL.</returns>
-            public async Task<List<UrlViewDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<UrlViewDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var urls = await _context.Urls.ToListAsync();
+                var urls = await _context.Urls.ToListAsync(cancellationToken);
                 
                 var urlsToReturn = _mapper.Map<List<UrlViewDto>>(urls);
 
-                return urlsToReturn;
+                return Result<List<UrlViewDto>>.Success(urlsToReturn);
             }
         }
     }

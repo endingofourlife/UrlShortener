@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Core;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
@@ -17,14 +18,14 @@ namespace Application.Urls
         /// <summary>
         /// Represents a command request to delete all URLs.
         /// </summary>
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
 
         }
         /// <summary>
         /// Represents a command handler to handle the deletion of all URLs.
         /// </summary>
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
 
@@ -37,15 +38,19 @@ namespace Application.Urls
             /// </summary>
             /// <param name="request">The query request.</param>
             /// <returns>A task representing the asynchronous operation that returns Unit object.</returns>
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var url = await _context.Urls.ToListAsync();
+                var urls = await _context.Urls.ToListAsync();
 
-                _context.RemoveRange(url);
+                if (!urls.Any()) return null;
 
-                await _context.SaveChangesAsync();
+                _context.RemoveRange(urls);
 
-                return Unit.Value;
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (!result) return Result<Unit>.Failure("Failed to delete shortcuts");
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }

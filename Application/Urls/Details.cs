@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Core;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -15,7 +16,7 @@ namespace Application.Urls
         /// <summary>
         /// Represents a query request to view the URL.
         /// </summary>
-        public class Query : IRequest<Url>
+        public class Query : IRequest<Result<Url>>
         {
             public Guid Id { get; set; }
         }
@@ -23,7 +24,7 @@ namespace Application.Urls
         /// <summary>
         /// Represents a query handler to handle the request for viewing a URL.
         /// </summary>
-        public class Handler : IRequestHandler<Query, Url>
+        public class Handler : IRequestHandler<Query, Result<Url>>
         {
             private readonly DataContext _context;
 
@@ -36,10 +37,11 @@ namespace Application.Urls
             /// </summary>
             /// <param name="request">The query request.</param>
             /// <returns>A task representing the asynchronous operation that returns the URL.</returns>
-            public async Task<Url> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<Url>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var result = await _context.Urls.FindAsync(request.Id);
-                return result;
+                
+                return Result<Url>.Success(result);
             }
         }
     }

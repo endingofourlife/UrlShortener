@@ -1,4 +1,5 @@
 using API.Extensions;
+using API.Middleware;
 using Application.Urls;
 using Domain;
 using MediatR;
@@ -14,6 +15,9 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 
 var app = builder.Build();
+
+// Exception handler
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
