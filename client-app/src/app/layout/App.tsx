@@ -9,70 +9,27 @@ import agent from "../api/agent";
 import {CreateUrlDto} from "../models/Dto/CreateUrlDto";
 import {v4 as uuid} from 'uuid';
 import LoadingComponent from "./LoadingComponent";
+import {observer} from "mobx-react-lite";
+import {useStore} from "../stores/store";
 
 
 function App() {
-  const [urls, setUrls] = useState<UsersUrl[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  const {urlStore} = useStore();
 
   useEffect(()=>{
-    agent.Urls.list().then(response => {
-      let urls: UsersUrl[] = [];
-      response.forEach(url => {
-          url.createdDate = url.createdDate.split('T')[0];
-        urls.push(url);
-      })
-        setUrls(urls);
-        setLoading(false);
-    })
-  }, []);
+    urlStore.loadUrls();
+  }, [urlStore]);
 
-  function handleCreateUrl(url: CreateUrlDto){
-      setSubmitting(true);
 
-      agent.Urls.create(url).then(() => {
-          const correctUrl:UsersUrl = {
-              id: uuid(),
-              originalUrl: url.originalUrl,
-              shortUrl: url.shortUrl,
-              createdDate: new Date().toISOString().split('T')[0],
-              userId: url.userId
-          }
-          setUrls([...urls, correctUrl]);
-          setSubmitting(false);
-      })
-  }
-  function handleDeleteUrl(id: string){
-      setSubmitting(true);
-      agent.Urls.delete(id).then(() => {
-          setUrls([...urls.filter(x=>x.id !== id)]);
-          setSubmitting(false);
-      });
-  }
-  function handleDeleteAllUrls(){
-      setSubmitting(true);
-      agent.Urls.deleteAll().then(() => {
-          setUrls([]);
-          setSubmitting(false);
-      });
-  }
-
-  if (loading) return <LoadingComponent/>
+  if (urlStore.loadingInitial) return <LoadingComponent/>
   return (
     <div className="App">
         <NavBar />
          <Container style={{marginTop: '7em'}}>
-             <UrlDashboard
-                 urls={urls}
-                 createUrl={handleCreateUrl}
-                 deleteUrl={handleDeleteUrl}
-                 deleteAllUrls={handleDeleteAllUrls}
-                 submitting={submitting}
-             />
+             <UrlDashboard />
          </Container>
     </div>
   );
 }
 
-export default App;
+export default observer(App);

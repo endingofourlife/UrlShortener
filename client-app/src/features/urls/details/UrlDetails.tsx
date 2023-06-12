@@ -1,25 +1,29 @@
 import { Button, Modal } from "semantic-ui-react";
 import { UsersUrl } from "../../../app/models/UsersUrl";
+import {observer} from "mobx-react-lite";
+import {useStore} from "../../../app/stores/store";
 
 interface Props {
     url: UsersUrl;
-    onClose: () => void;
 }
 
-export default function UrlDetails({ url, onClose }: Props) {
+export default observer(function UrlDetails() {
+    const {urlStore} = useStore();
+    const {closeUrlDetails, selectedUrl} = urlStore;
     return (
         <>
-            <Modal open={true} onClose={onClose}>
-                <Modal.Header>{url.originalUrl}</Modal.Header>
+            <Modal open={true} onClose={closeUrlDetails}>
+                <Modal.Header>{selectedUrl?.originalUrl}</Modal.Header>
                 <Modal.Content>
                     {/* Display additional information about the URL */}
-                    <p>Created Date: {url.createdDate}</p>
-                    <p>Short URL: {url.shortUrl}</p>
+                    <p>Created Date: {selectedUrl?.createdDate}</p>
+                    <p>Short URL: {selectedUrl?.shortUrl}</p>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={closeUrlDetails}>Close</Button>
                 </Modal.Actions>
             </Modal>
         </>
     );
 }
+)

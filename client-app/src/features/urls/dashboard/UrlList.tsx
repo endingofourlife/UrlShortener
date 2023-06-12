@@ -3,15 +3,12 @@ import {Button, Item} from "semantic-ui-react";
 import {SyntheticEvent, useState} from "react";
 import agent from "../../../app/api/agent";
 import {useStore} from "../../../app/stores/store";
+import {observer} from "mobx-react-lite";
 
-interface Props{
-    urls: UsersUrl[];
-    openUrlDetails: (url: UsersUrl) => void;
-    deleteUrl: (id: string) => void;
-    submitting: boolean;
-}
 
-export default function UrlList({urls, openUrlDetails, deleteUrl, submitting }: Props) {
+export default observer(function UrlList() {
+    const {urlStore} = useStore();
+    const {openUrlDetails, deleteUrl, urlsByDate, loading} = urlStore;
     const [target, setTarget] = useState("");
 
     function handleUrlDelete(e: SyntheticEvent<HTMLButtonElement>, id: string){
@@ -22,7 +19,7 @@ export default function UrlList({urls, openUrlDetails, deleteUrl, submitting }: 
     return (
         <>
             <Item.Group divided>
-                {urls.map((url, index) => (
+                {urlsByDate.map((url, index) => (
                     <Item key={url.id}>
                         <Item.Content>
                             <Item.Header>{index + 1}. {url.originalUrl}</Item.Header>
@@ -35,7 +32,7 @@ export default function UrlList({urls, openUrlDetails, deleteUrl, submitting }: 
                             </Item.Description>
                             <Item.Extra>
                                 <Button floated='right' content='View' color='blue' onClick={()=>openUrlDetails(url)} />
-                                <Button name={url.id} loading={submitting && target===url.id} floated='right' content='Delete' color='red' onClick={(e)=>handleUrlDelete(e, url.id)} />
+                                <Button name={url.id} loading={loading && target===url.id} floated='right' content='Delete' color='red' onClick={(e)=>handleUrlDelete(e, url.id)} />
                             </Item.Extra>
                         </Item.Content>
                     </Item>
@@ -43,4 +40,4 @@ export default function UrlList({urls, openUrlDetails, deleteUrl, submitting }: 
             </Item.Group>
         </>
     )
-}
+})

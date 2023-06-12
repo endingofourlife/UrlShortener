@@ -1,5 +1,6 @@
 import {createContext, useContext} from "react";
-import UrlStore from "./UrlStore";
+import UrlStore from "./urlStore";
+
 
 
 interface Store{
