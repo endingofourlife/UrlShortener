@@ -13,7 +13,7 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<List<UrlDto>>> GetUrls()
+        public async Task<ActionResult<List<UrlViewDto>>> GetUrls()
         {
             var query = new List.Query();
             var urls = await Mediator.Send(query);
@@ -28,7 +28,7 @@ namespace API.Controllers
             return result;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateUrl(UrlDto urlDto)
+        public async Task<IActionResult> CreateUrl(UrlCreateDto urlDto)
         {
             Url url = new Url()
             {
