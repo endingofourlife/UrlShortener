@@ -8,7 +8,7 @@ namespace Application.Core
     {
         public MappingProfilies()
         {
-            CreateMap<Url, UrlDto>();
+            CreateMap<Url, UrlViewDto>();
         }
     }
 }
