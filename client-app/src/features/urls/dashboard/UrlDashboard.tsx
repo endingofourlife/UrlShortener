@@ -8,12 +8,20 @@ import {useStore} from "../../../app/stores/store";
 import {CreateUrlDto} from "../../../app/models/Dto/CreateUrlDto";
 import {observer} from "mobx-react-lite";
 import UrlForm from "../form/UrlForm";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 
 
 export default observer(function UrlDashboard() {
     const {urlStore} = useStore();
     const {selectedUrl, deleteAllUrls} = urlStore;
+
+    useEffect(()=>{
+        urlStore.loadUrls();
+    }, [urlStore]);
+
+
+    if (urlStore.loadingInitial) return <LoadingComponent/>
 
     return (
         <Grid centered>

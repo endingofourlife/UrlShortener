@@ -11,23 +11,20 @@ import {v4 as uuid} from 'uuid';
 import LoadingComponent from "./LoadingComponent";
 import {observer} from "mobx-react-lite";
 import {useStore} from "../stores/store";
+import {Outlet} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
 
 
 function App() {
-  const {urlStore} = useStore();
-
-  useEffect(()=>{
-    urlStore.loadUrls();
-  }, [urlStore]);
-
-
-  if (urlStore.loadingInitial) return <LoadingComponent/>
   return (
     <div className="App">
-        <NavBar />
-         <Container style={{marginTop: '7em'}}>
-             <UrlDashboard />
-         </Container>
+        <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
+        <>
+            <NavBar />
+            <Container style={{marginTop: '7em'}}>
+                <Outlet />
+            </Container>
+        </>
     </div>
   );
 }
